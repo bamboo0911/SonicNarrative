@@ -1,10 +1,8 @@
 import React, { useState, useRef } from 'react';
 import '.././App.css';  // 確保引入了App.css
 
-
 // 定義RecordingPage組件
 const RecordingPage = () => {
-  // 定義狀態變量，用於控制錄音狀態、音頻URL和倒數計時
   const [isRecording, setIsRecording] = useState(false); // 用來指示是否正在錄音
   const [audioURL, setAudioURL] = useState(''); // 用來存儲錄音完成後的音頻URL
   const [timeLeft, setTimeLeft] = useState(30); // 用來控制錄音的倒數計時，初始化為30秒
@@ -16,6 +14,7 @@ const RecordingPage = () => {
   const startRecording = () => {
     setIsRecording(true); // 將錄音狀態設置為true，表示開始錄音
     setTimeLeft(30); // 重置倒數計時為30秒
+    
     // 請求用戶的音頻媒體（麥克風）
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then(stream => {
@@ -40,6 +39,13 @@ const RecordingPage = () => {
         timeoutRef.current = setTimeout(() => {
           stopRecording(); // 調用stopRecording函數來停止錄音
         }, 30000); // 30000毫秒 = 30秒
+      })
+      .catch(error => {
+        if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+          alert('Please allow microphone access to use the recording feature.');
+        } else {
+          console.error('Error accessing microphone: ', error);
+        }
       });
 
     // 每秒更新一次倒數計時
