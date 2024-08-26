@@ -1,24 +1,23 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import MainPage from './components/MainPage';
+import RecordingPage from './components/RecordingPage';
+import PhotoPage from './components/PhotoPage';
+import WritingPage from './components/WritingPage';
+import AIResultPage from './components/AIResultPage'; // 引入新頁面
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/recording" element={<RecordingPage />} />
+        <Route path="/photo" element={<PhotoPage />} />
+        <Route path="/writing" element={<WritingPage />} />
+        <Route path="/ai-result" element={<AIResultPage />} /> 
+      </Routes>
+    </Router>
   );
 }
 
