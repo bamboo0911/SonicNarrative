@@ -7,14 +7,21 @@ const MainPage = () => {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        });
-      }, (error) => {
-        console.error("Error fetching geolocation: ", error);
-      });
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          });
+        },
+        (error) => {
+          if (error.code === error.PERMISSION_DENIED) {
+            alert("Please allow location access to use this feature.");
+          } else {
+            console.error("Error fetching geolocation: ", error);
+          }
+        }
+      );
     } else {
       alert("Geolocation is not supported by this browser.");
     }
